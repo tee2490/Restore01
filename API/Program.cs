@@ -1,4 +1,5 @@
 using API.Data;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,6 +59,10 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection(); Web
+
+#region ส่ง error ไปให้ Axios ตอนทำ Interceptor
+  app.UseMiddleware<ExceptionMiddleware>(); 
+#endregion
 
 app.UseRouting();
 

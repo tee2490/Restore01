@@ -1,18 +1,22 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import agent from '../../app/api/agent'
+import LoadingComponent from '../../app/layout/LoadingComponent'
 import { Product } from '../../app/models/Product'
 import ProductList from './ProductList'
 
 export default function Catalog() {
   const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("555555555555")
-    fetch("http://localhost:5000/api/Products")
-    .then((response)=>response.json())
-    .then((data)=>setProducts(data))
+    agent.Catalog.list()
+    .then((response : any)=>setProducts(response))
     .catch((error)=>console.log(error))
+    .finally(()=>setLoading(false))
   }, [])
   
+  if (loading) return <LoadingComponent message="Loading Products....." />;
 
   return (
    <>
