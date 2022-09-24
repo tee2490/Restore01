@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AboutPage from '../../features/about/AboutPage';
 import BasketPage from '../../features/basket/BasketPage';
+import { setBasket } from '../../features/basket/basketSlice';
 import Catalog from '../../features/catalog/Catalog';
 import ProductDetails from '../../features/catalog/ProductDetails';
 import CheckoutPage from '../../features/checkout/CheckoutPage';
@@ -14,23 +15,26 @@ import agent from '../api/agent';
 import { useStoreContext } from '../context/StoreContext';
 import NotFound from '../errors/NotFound';
 import ServerError from '../errors/ServerError';
+import { useAppDispatch, useAppSelector } from '../store/configureStore';
 import { getCookie } from '../util/util';
 import Header from './Header'
 import LoadingComponent from './LoadingComponent';
 
 export default function App() {
-  const { setBasket } = useStoreContext(); //ควบคุมสเตทด้วย React context to Centralize
+  //const { setBasket } = useStoreContext(); //ควบคุมสเตทด้วย React context to Centralize
+  const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(true);
-
+  const {fullscreen} = useAppSelector(state=>state.screen)
+ 
   useEffect(() => {
     const buyerId = getCookie("buyerId");
     if (buyerId) {
       agent.Basket.get()
-        .then((basket) => setBasket(basket))
+        .then((basket) => dispatch(setBasket(basket)))
         .catch((error) => console.log(error))
         .finally(() => setLoading(false));
     } else setLoading(false);
-  }, [setBasket]);
+  }, [dispatch]);
 
 
   const [mode, setMode] = useState(true)
@@ -56,20 +60,23 @@ export default function App() {
         />
       <CssBaseline />
       <Header handleMode={handleMode}/>
-      <Container>
-        <Routes>
-          <Route path='/' element={<HomePage/>} />
-          <Route path='/about' element={<AboutPage/>}/>
-          <Route path='/contact' element={<ContactPage/>}/>
-          <Route path='/catalog' element={<Catalog/>}/>
-          <Route path='/basket' element={<BasketPage/>}/>
-          <Route path='/catalog/:id' element={<ProductDetails/>}/>
-          <Route path='/checkout' element={<CheckoutPage/>}/>
-          <Route path='/server-error' element={<ServerError/>}/>
-          <Route path='*' element={<NotFound/>}/>
-        </Routes>
-      </Container>
+      {fullscreen ? <>{mainroute}</> : <Container sx={{marginTop:2}}>
+        {mainroute}
+      </Container>}
     </ThemeProvider>
     </>
   )
 }
+
+
+const mainroute = <Routes>
+<Route path='/' element={<HomePage/>} />
+<Route path='/about' element={<AboutPage/>}/>
+<Route path='/contact' element={<ContactPage/>}/>
+<Route path='/catalog' element={<Catalog/>}/>
+<Route path='/basket' element={<BasketPage/>}/>
+<Route path='/catalog/:id' element={<ProductDetails/>}/>
+<Route path='/checkout' element={<CheckoutPage/>}/>
+<Route path='/server-error' element={<ServerError/>}/>
+<Route path='*' element={<NotFound/>}/>
+</Routes>
