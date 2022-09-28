@@ -12,7 +12,6 @@ import CheckoutPage from '../../features/checkout/CheckoutPage';
 import ContactPage from '../../features/contact/ContactPage';
 import HomePage from '../../features/home/HomePage';
 import agent from '../api/agent';
-import { useStoreContext } from '../context/StoreContext';
 import NotFound from '../errors/NotFound';
 import ServerError from '../errors/ServerError';
 import { useAppDispatch, useAppSelector } from '../store/configureStore';
@@ -21,7 +20,6 @@ import Header from './Header'
 import LoadingComponent from './LoadingComponent';
 
 export default function App() {
-  //const { setBasket } = useStoreContext(); //ควบคุมสเตทด้วย React context to Centralize
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(true);
   const {fullscreen} = useAppSelector(state=>state.screen)
