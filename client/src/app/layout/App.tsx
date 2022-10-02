@@ -19,6 +19,7 @@ import ProductDetails from "../../features/catalog/ProductDetails";
 import CheckoutPage from "../../features/checkout/CheckoutPage";
 import ContactPage from "../../features/contact/ContactPage";
 import HomePage from "../../features/home/HomePage";
+import OrderPage from "../../features/orders/OrderPage";
 import NotFound from "../errors/NotFound";
 import ServerError from "../errors/ServerError";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
@@ -99,6 +100,7 @@ const mainroute = (
     />
     <Route element={<PrivateRoute />}>
       <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/order" element={<OrderPage/>}/>
     </Route>
   </Routes>
 );

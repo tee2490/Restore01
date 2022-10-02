@@ -99,5 +99,15 @@ namespace API.Controllers
             return basket;
         }
 
+        [Authorize]  //Token ถูกแนบมากับ axios.interceptors.request
+        [HttpGet("savedAddress")]
+        public async Task<ActionResult<UserAddress>> GetSavedAddress()
+        {
+            return await _userManager.Users
+                .Where(x => x.UserName == User.Identity.Name)
+                .Select(user => user.Address)
+                .FirstOrDefaultAsync();
+        }
+
     }
 }
