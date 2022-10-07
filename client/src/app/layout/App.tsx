@@ -17,6 +17,7 @@ import { fetchBasketAsync } from "../../features/basket/basketSlice";
 import Catalog from "../../features/catalog/Catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
 import CheckoutPage from "../../features/checkout/CheckoutPage";
+import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
 import ContactPage from "../../features/contact/ContactPage";
 import HomePage from "../../features/home/HomePage";
 import OrderPage from "../../features/orders/OrderPage";
@@ -99,7 +100,7 @@ const mainroute = (
       }
     />
     <Route element={<PrivateRoute />}>
-      <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/checkout" element={<CheckoutWrapper/>} />
       <Route path="/order" element={<OrderPage/>}/>
     </Route>
   </Routes>
