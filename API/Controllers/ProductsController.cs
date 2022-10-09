@@ -52,7 +52,7 @@ namespace API.Controllers
         [HttpGet("filters")]
         public async Task<IActionResult> GetFilters()
         {
-            //อ่านค่าที่ซ้ำกันมาเพียงค่าเดียว
+            //อ่านค่าที่ซ้ำกันมาเพียงค่าเดียว ....
             var brands = await _context.Products.Select(p => p.Brand).Distinct().ToListAsync();
             var types = await _context.Products.Select(p => p.Type).Distinct().ToListAsync();
 
